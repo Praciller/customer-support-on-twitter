@@ -39,6 +39,7 @@ Once GitHub Pages is enabled, every push to the `main` branch will:
 ### Deployment Status
 
 Monitor deployment status via:
+
 - **Actions tab**: View workflow runs and logs
 - **Environments**: Check deployment history
 - **Pages settings**: See live URL and deployment status
@@ -48,12 +49,14 @@ Monitor deployment status via:
 The deployed application includes:
 
 ### 🎯 **Demo Mode**
+
 - **Automatic Activation**: Detects GitHub Pages environment
 - **Simulated AI Responses**: Keyword-based analysis simulation
 - **Interactive UI**: Full frontend functionality without backend
 - **Technology Showcase**: Displays backend capabilities and tech stack
 
 ### 🔧 **Production Optimizations**
+
 - **Code Splitting**: Optimized bundle sizes
 - **Asset Optimization**: Compressed images and CSS
 - **Caching**: Proper cache headers for static assets
@@ -83,30 +86,53 @@ This uses the `gh-pages` package to push the build directly to the `gh-pages` br
 
 ### Common Issues
 
-**1. Workflow Fails - Pages Not Enabled**
+**1. 404 Error - "There isn't a GitHub Pages site here"**
+
+- **Cause**: GitHub Pages not enabled in repository settings
+- **Solution**:
+  1. Go to Repository Settings → Pages
+  2. Under "Source", select "Deploy from a branch"
+  3. Choose "gh-pages" branch and "/ (root)" folder
+  4. Click "Save"
+  5. Wait 5-10 minutes for deployment
+- **Verify**: Check that `gh-pages` branch exists and has content
+
+**2. Workflow Fails - Pages Not Enabled**
+
 - **Solution**: Enable GitHub Pages in repository settings first
 - **Check**: Repository Settings → Pages → Source
 
-**2. Build Fails - Dependencies**
+**3. Build Fails - Dependencies**
+
 - **Solution**: Ensure `package-lock.json` is up to date
 - **Fix**: Run `npm install` locally and commit changes
 
-**3. 404 Errors on Deployed Site**
+**4. 404 Errors on Deployed Site**
+
 - **Solution**: Check `homepage` field in `package.json`
 - **Verify**: Should be `https://username.github.io/repository-name`
 
-**4. Demo Mode Not Working**
+**5. Demo Mode Not Working**
+
 - **Solution**: Check browser console for JavaScript errors
 - **Verify**: Demo mode activates automatically on `github.io` domains
+
+**6. Code Quality Workflow Fails - SonarCloud Issues**
+
+- **Cause**: SonarCloud not configured or SONAR_TOKEN missing
+- **Solution**: SonarCloud step has been disabled by default
+- **To Re-enable**: Set up SonarCloud project and add SONAR_TOKEN secret
 
 ### Debug Steps
 
 1. **Check Workflow Logs**:
+
    - Go to Actions tab
    - Click on failed workflow
    - Review build and deployment logs
 
 2. **Verify Build Locally**:
+
    ```bash
    cd frontend
    npm run build
@@ -122,12 +148,14 @@ This uses the `gh-pages` package to push the build directly to the `gh-pages` br
 ## 📊 Monitoring
 
 ### Deployment Metrics
+
 - **Build Time**: ~2-3 minutes
 - **Bundle Size**: ~60KB gzipped
 - **Deployment Frequency**: On every main branch push
 - **Uptime**: 99.9% (GitHub Pages SLA)
 
 ### Performance
+
 - **First Contentful Paint**: <2s
 - **Time to Interactive**: <3s
 - **Lighthouse Score**: 90+ (Performance, Accessibility, SEO)

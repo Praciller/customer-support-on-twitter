@@ -12,8 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Needed for SonarCloud
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -86,9 +84,11 @@ jobs:
             backend/safety-report.json
             frontend/eslint-report.json
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        continue-on-error: true # Don't fail if SonarCloud is not configured
+      # SonarCloud scanning removed to prevent configuration issues
+      # To re-enable: Set up SonarCloud project and add SONAR_TOKEN secret
+      # - name: SonarCloud Scan
+      #   uses: SonarSource/sonarcloud-github-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   continue-on-error: true
