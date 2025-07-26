@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.css": "/customer-support-on-twitter/static/css/main.71e3c6b4.css",
+    "main.js": "/customer-support-on-twitter/static/js/main.86b5121a.js",
+    "index.html": "/customer-support-on-twitter/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.71e3c6b4.css",
+    "static/js/main.86b5121a.js"
+  ]
+}
