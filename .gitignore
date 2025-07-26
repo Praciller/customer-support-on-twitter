@@ -315,6 +315,15 @@ logs
 models/
 checkpoints/
 
+# Large dataset files (>100MB)
+backend/dataset/twcs.csv
+backend/dataset/*.csv
+!backend/dataset/sample.csv
+*.parquet
+*.feather
+data/
+datasets/
+
 # Database files
 *.db
 *.sqlite
