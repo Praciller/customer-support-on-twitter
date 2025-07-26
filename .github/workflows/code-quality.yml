@@ -1,0 +1,92 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Needed for SonarCloud
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: Install Python dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install flake8 black isort mypy bandit safety
+    
+    - name: Install Node.js dependencies
+      run: |
+        cd frontend
+        npm ci
+    
+    - name: Python Code Quality Checks
+      run: |
+        cd backend
+        
+        echo "🔍 Running Black (code formatting)..."
+        black --check --diff .
+        
+        echo "🔍 Running isort (import sorting)..."
+        isort --check-only --diff .
+        
+        echo "🔍 Running Flake8 (linting)..."
+        flake8 . --count --statistics
+        
+        echo "🔍 Running MyPy (type checking)..."
+        mypy . --ignore-missing-imports || echo "MyPy check completed with warnings"
+        
+        echo "🔍 Running Bandit (security)..."
+        bandit -r . -f json -o bandit-report.json || echo "Bandit scan completed"
+        
+        echo "🔍 Running Safety (dependency security)..."
+        safety check --json --output safety-report.json || echo "Safety check completed"
+    
+    - name: Frontend Code Quality Checks
+      run: |
+        cd frontend
+        
+        echo "🔍 Running ESLint..."
+        npx eslint src/ --ext .js,.jsx,.ts,.tsx --format json --output-file eslint-report.json || echo "ESLint completed"
+        
+        echo "🔍 Running Prettier check..."
+        npx prettier --check src/ || echo "Prettier check completed"
+        
+        echo "🔍 Building TypeScript..."
+        npx tsc --noEmit || echo "TypeScript check completed"
+    
+    - name: Upload Code Quality Reports
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: code-quality-reports
+        path: |
+          backend/bandit-report.json
+          backend/safety-report.json
+          frontend/eslint-report.json
+    
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      continue-on-error: true  # Don't fail if SonarCloud is not configured

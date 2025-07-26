@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brutalist CSS Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Courier New', 'Monaco', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier', monospace;
+  background-color: #FFFFFF;
+  color: #000000;
+  line-height: 1.4;
+}
+
+/* Brutalist Component Classes */
+@layer components {
+  .brutal-container {
+    @apply border-4 border-black bg-white p-20;
+  }
+  
+  .brutal-heading {
+    @apply font-mono font-bold uppercase text-black text-2xl mb-20;
+  }
+  
+  .brutal-subheading {
+    @apply font-mono font-bold uppercase text-black text-xl mb-20;
+  }
+  
+  .brutal-input {
+    @apply border-2 border-black bg-white font-mono p-20 w-full text-black;
+  }
+  
+  .brutal-input:focus {
+    @apply outline-none border-black bg-gray-100;
+  }
+  
+  .brutal-button {
+    @apply border-2 border-black bg-black text-white font-mono font-bold uppercase p-20 cursor-pointer transition-none;
+  }
+  
+  .brutal-button:hover {
+    @apply bg-white text-black;
+  }
+  
+  .brutal-card {
+    @apply border-4 border-black bg-white p-20;
+  }
+  
+  .brutal-label {
+    @apply font-mono font-bold uppercase text-black mb-20 block;
+  }
+  
+  .brutal-text {
+    @apply font-mono text-black;
+  }
+}
+
+/* Remove any smooth transitions */
+* {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ensure no rounded corners anywhere */
+* {
+  border-radius: 0 !important;
+}
+
+/* File input styling */
+input[type="file"] {
+  @apply brutal-input;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  @apply brutal-button mr-20;
+}
+
+/* Textarea specific styling */
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
