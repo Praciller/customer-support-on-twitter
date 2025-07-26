@@ -170,7 +170,7 @@ class LLMProcessor:
                     "sentiment": "Neutral",
                     "priority": "Medium",
                     "draft_reply": "Thank you for contacting us. We have received your message "
-                                   "and will review it shortly. Our team will get back to you as soon as possible.",
+                    "and will review it shortly. Our team will get back to you as soon as possible.",
                 }
 
         except Exception as e:
@@ -183,7 +183,7 @@ class LLMProcessor:
                 "sentiment": "Neutral",
                 "priority": "Medium",
                 "draft_reply": "Thank you for contacting us. We are experiencing technical difficulties "
-                               "but will review your message and respond as soon as possible.",
+                "but will review your message and respond as soon as possible.",
             }
 
 
