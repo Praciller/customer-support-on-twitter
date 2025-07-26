@@ -3,14 +3,15 @@ Multimodal LLM processor for customer support ticket analysis.
 Uses Google Gemini 2.0 Flash model for text and image analysis.
 """
 
-import google.generativeai as genai
-import os
-from PIL import Image
 import io
 import json
 import logging
-from typing import Dict, Optional, Any
+import os
+from typing import Any, Dict, Optional
+
+import google.generativeai as genai
 from dotenv import load_dotenv
+from PIL import Image
 
 # Load environment variables
 load_dotenv()
@@ -19,9 +20,10 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class LLMProcessor:
     """Handles multimodal analysis of customer support tickets using Google Gemini."""
-    
+
     def __init__(self):
         """Initialize the LLM processor with Google Gemini configuration."""
         try:
@@ -29,36 +31,33 @@ class LLMProcessor:
             api_key = os.getenv("GOOGLE_API_KEY")
             if not api_key:
                 raise ValueError("GOOGLE_API_KEY not found in environment variables")
-            
+
             genai.configure(api_key=api_key)
-            
+
             # Initialize the model with generation configuration
             self.model = genai.GenerativeModel(
-                'gemini-2.0-flash-exp',
-                generation_config={
-                    "temperature": 0.3,
-                    "max_output_tokens": 2048
-                }
+                "gemini-2.0-flash-exp",
+                generation_config={"temperature": 0.3, "max_output_tokens": 2048},
             )
-            
+
             logger.info("LLM Processor initialized successfully")
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize LLM Processor: {str(e)}")
             raise
-    
+
     def _prepare_image(self, image_bytes: bytes) -> Image.Image:
         """Convert image bytes to PIL Image object."""
         try:
             image = Image.open(io.BytesIO(image_bytes))
             # Convert to RGB if necessary
-            if image.mode != 'RGB':
-                image = image.convert('RGB')
+            if image.mode != "RGB":
+                image = image.convert("RGB")
             return image
         except Exception as e:
             logger.error(f"Failed to process image: {str(e)}")
             raise ValueError(f"Invalid image format: {str(e)}")
-    
+
     def _create_analysis_prompt(self) -> str:
         """Create the analysis prompt for the LLM."""
         return """
@@ -74,7 +73,8 @@ class LLMProcessor:
         Use this exact JSON structure:
         {
             "summary": "A concise 2-3 sentence summary of the customer's issue",
-            "category": "One of: Technical Issue, Billing, Account Access, Product Defect, Feature Request, General Inquiry",
+            "category": "One of: Technical Issue, Billing, Account Access, "
+                       "Product Defect, Feature Request, General Inquiry",
             "sentiment": "One of: Positive, Neutral, Negative, Frustrated",
             "priority": "One of: Low, Medium, High, Critical",
             "draft_reply": "A professional, empathetic response draft addressing the customer's concern"
@@ -82,29 +82,27 @@ class LLMProcessor:
 
         Important: Return ONLY the JSON object, nothing else.
         """
-    
+
     async def analyze_multimodal_ticket(
-        self, 
-        ticket_text: str, 
-        image_bytes: Optional[bytes] = None
+        self, ticket_text: str, image_bytes: Optional[bytes] = None
     ) -> Dict[str, Any]:
         """
         Analyze a customer support ticket with optional image attachment.
-        
+
         Args:
             ticket_text (str): The text content of the support ticket
             image_bytes (Optional[bytes]): Image attachment as bytes
-            
+
         Returns:
             Dict[str, Any]: Analysis results with summary, category, sentiment, and draft reply
         """
         try:
             # Prepare the prompt
             prompt = self._create_analysis_prompt()
-            
+
             # Prepare content for the model
             content = [prompt, f"\nCustomer Message: {ticket_text}"]
-            
+
             # Add image if provided
             if image_bytes:
                 try:
@@ -112,27 +110,31 @@ class LLMProcessor:
                     content.append(image)
                     logger.info("Image successfully added to analysis")
                 except Exception as e:
-                    logger.warning(f"Failed to process image, continuing with text-only analysis: {str(e)}")
-            
+                    logger.warning(
+                        f"Failed to process image, continuing with text-only analysis: {str(e)}"
+                    )
+
             # Generate response
             logger.info("Sending request to Gemini model...")
             response = self.model.generate_content(content)
-            
+
             # Parse JSON response
             try:
                 response_text = response.text.strip()
 
                 # Try to extract JSON from the response if it's wrapped in other text
-                if response_text.startswith('```json'):
+                if response_text.startswith("```json"):
                     # Remove markdown code block formatting
-                    response_text = response_text.replace('```json', '').replace('```', '').strip()
-                elif response_text.startswith('```'):
+                    response_text = (
+                        response_text.replace("```json", "").replace("```", "").strip()
+                    )
+                elif response_text.startswith("```"):
                     # Remove generic code block formatting
-                    response_text = response_text.replace('```', '').strip()
+                    response_text = response_text.replace("```", "").strip()
 
                 # Find JSON object in the response
-                start_idx = response_text.find('{')
-                end_idx = response_text.rfind('}') + 1
+                start_idx = response_text.find("{")
+                end_idx = response_text.rfind("}") + 1
 
                 if start_idx != -1 and end_idx > start_idx:
                     json_text = response_text[start_idx:end_idx]
@@ -144,7 +146,13 @@ class LLMProcessor:
                 logger.info("Successfully analyzed ticket")
 
                 # Validate required keys
-                required_keys = ["summary", "category", "sentiment", "priority", "draft_reply"]
+                required_keys = [
+                    "summary",
+                    "category",
+                    "sentiment",
+                    "priority",
+                    "draft_reply",
+                ]
                 for key in required_keys:
                     if key not in result:
                         result[key] = "Not available"
@@ -161,33 +169,39 @@ class LLMProcessor:
                     "category": "General Inquiry",
                     "sentiment": "Neutral",
                     "priority": "Medium",
-                    "draft_reply": "Thank you for contacting us. We have received your message and will review it shortly. Our team will get back to you as soon as possible."
+                    "draft_reply": "Thank you for contacting us. We have received your message "
+                                   "and will review it shortly. Our team will get back to you as soon as possible.",
                 }
-                
+
         except Exception as e:
             logger.error(f"Error during ticket analysis: {str(e)}")
-            
+
             # Return error response
             return {
                 "summary": f"Analysis failed: {str(e)}",
                 "category": "General Inquiry",
                 "sentiment": "Neutral",
                 "priority": "Medium",
-                "draft_reply": "Thank you for contacting us. We are experiencing technical difficulties but will review your message and respond as soon as possible."
+                "draft_reply": "Thank you for contacting us. We are experiencing technical difficulties "
+                               "but will review your message and respond as soon as possible.",
             }
+
 
 # Global instance
 llm_processor = LLMProcessor()
 
+
 # Convenience function for external use
-async def analyze_multimodal_ticket(ticket_text: str, image_bytes: Optional[bytes] = None) -> Dict[str, Any]:
+async def analyze_multimodal_ticket(
+    ticket_text: str, image_bytes: Optional[bytes] = None
+) -> Dict[str, Any]:
     """
     Convenience function to analyze a customer support ticket.
-    
+
     Args:
         ticket_text (str): The text content of the support ticket
         image_bytes (Optional[bytes]): Image attachment as bytes
-        
+
     Returns:
         Dict[str, Any]: Analysis results
     """
