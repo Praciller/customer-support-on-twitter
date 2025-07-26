@@ -167,6 +167,63 @@ This uses the `gh-pages` package to push the build directly to the `gh-pages` br
 - **GitHub Pages Docs**: https://docs.github.com/en/pages
 - **React Deployment Guide**: https://create-react-app.dev/docs/deployment/
 
+## 🧪 Quick Test Cases for Live Demo
+
+Once your site is live at https://praciller.github.io/customer-support-on-twitter, use these test cases to demonstrate the AI system's capabilities:
+
+### 🔧 **Test Case 1: Technical Issue**
+
+```
+Subject: Account Dashboard Access Problem
+Message: I can't access my account dashboard since this morning. The page keeps loading infinitely and eventually shows a 404 error. I've tried clearing my cache and using different browsers but nothing works. This is urgent as I need to access my reports!
+```
+
+**Expected Demo Response**: Technical support classification with troubleshooting steps
+
+### 💳 **Test Case 2: Billing Question**
+
+```
+Subject: Duplicate Charges on Credit Card
+Message: Hello, I noticed two separate charges of $29.99 on my credit card statement from last week. I'm only supposed to have one premium subscription. Could you please explain these charges and refund the duplicate payment? Here's my account email: customer@example.com
+```
+
+**Expected Demo Response**: Billing inquiry classification with refund process information
+
+### ✨ **Test Case 3: Feature Request**
+
+```
+Subject: Dark Mode Feature Request
+Message: I love using your platform, but I think it would be really helpful to have a dark mode option. Many of us work late at night, and the bright interface can be straining on the eyes. Would you consider adding this feature in a future update?
+```
+
+**Expected Demo Response**: Feature request classification with positive acknowledgment
+
+### 🚨 **Test Case 4: Security Concern**
+
+```
+Subject: URGENT - Account Security Issue
+Message: URGENT: Someone has been trying to hack my account! I've received multiple login attempt notifications from unknown locations. I need immediate help securing my account and changing my password. Please help!
+```
+
+**Expected Demo Response**: High-priority security classification with immediate action steps
+
+### 😊 **Test Case 5: General Inquiry (Positive)**
+
+```
+Subject: Thank You and Quick Question
+Message: I just wanted to say thank you for the excellent customer service last week! Your team really went above and beyond. I have a quick question about upgrading my plan - what are the benefits of the premium tier compared to my current basic plan?
+```
+
+**Expected Demo Response**: General inquiry classification with positive sentiment recognition
+
+### 🎯 **Demo Testing Instructions**
+
+1. **Copy and paste** each test case into the demo interface
+2. **Click "Analyze Ticket"** to see the AI response simulation
+3. **Observe** the sentiment analysis, priority classification, and suggested actions
+4. **Note** how the system handles different types of customer inquiries
+5. **Share** the live demo URL to showcase your AI capabilities
+
 ## 🎯 Next Steps
 
 After successful deployment:
