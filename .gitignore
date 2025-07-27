@@ -337,3 +337,11 @@ credentials.json
 # Backup files
 *.bak
 *.backup
+
+# Generated reports and analysis files
+bandit-report.json
+safety-report.json
+eslint-report.json
+*-report.json
+*-report.txt
+*-report.xml
