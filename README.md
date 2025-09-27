@@ -6,7 +6,7 @@
 
 **🚀 [Live Demo](https://praciller.github.io/customer-support-on-twitter) | 📖 [Documentation](#documentation) | 🛠️ [Setup Guide](#setup)**
 
-An intelligent, multimodal customer support system that analyzes support tickets (text + images) and generates contextual responses using Google's Gemini AI model. Features a brutalist design aesthetic with real-time AI processing capabilities.
+An intelligent, multimodal customer support system that analyzes support tickets (text + images) and generates contextual responses using Google's Gemini AI model. Features a modern shadcn/ui design with comprehensive testing and real-time AI processing capabilities.
 
 ## ✨ Features
 
@@ -21,19 +21,20 @@ An intelligent, multimodal customer support system that analyzes support tickets
 
 ### 🎨 **User Experience**
 
-- **Brutalist Design**: Bold, functional interface
-- **Responsive Layout**: Works on all devices
-- **Live Demo Mode**: Interactive showcase without backend
-- **Real-time Feedback**: Loading states and error handling
-- **Accessibility**: Screen reader friendly
+- **Modern shadcn/ui Design**: Professional, accessible component library
+- **Responsive Layout**: Mobile-first design that works on all devices
+- **Live Demo Mode**: Interactive showcase without backend dependency
+- **Real-time Feedback**: Loading states and comprehensive error handling
+- **Accessibility**: WCAG compliant with proper semantic HTML
 
 ### 🔧 **Technical Stack**
 
-- **Frontend**: React 18, Tailwind CSS, Axios
+- **Frontend**: React 18, shadcn/ui, Tailwind CSS, Axios
 - **Backend**: FastAPI, Python 3.10+
 - **AI Engine**: Google Gemini AI
 - **Deployment**: GitHub Pages, GitHub Actions
-- **Testing**: Jest, pytest, GitHub Actions CI/CD
+- **Testing**: Jest, React Testing Library, Playwright, pytest, GitHub Actions CI/CD
+- **Test Coverage**: 57 total tests (28 unit + 16 integration + 13 E2E)
 
 ## 🚀 Live Demo
 

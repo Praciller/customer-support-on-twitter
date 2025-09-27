@@ -1,81 +1,106 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html"
-  ],
+  darkMode: ["class"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
-      // Brutalist color palette - only black, white, and light gray
       colors: {
-        'brutal-black': '#000000',
-        'brutal-white': '#FFFFFF',
-        'brutal-gray': '#F5F5F5',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        // Preserve brutalist colors for backward compatibility
+        "brutal-black": "#000000",
+        "brutal-white": "#FFFFFF",
+        "brutal-gray": "#F5F5F5",
+        // Standard colors for compatibility
+        black: "#000000",
+        white: "#FFFFFF",
+        gray: {
+          100: "#F5F5F5",
+          900: "#000000",
+        },
       },
-      // Brutalist typography - monospace fonts only
-      fontFamily: {
-        'mono': ['Courier New', 'Monaco', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier', 'monospace'],
-      },
-      // Brutalist spacing - only specific increments
-      spacing: {
-        '20': '20px',
-        '40': '40px', 
-        '60': '60px',
-        '80': '80px',
-        '100': '100px',
-        '120': '120px',
-      },
-      // Brutalist borders - thick black borders only
-      borderWidth: {
-        '2': '2px',
-        '4': '4px',
-        '6': '6px',
-        '8': '8px',
-      },
-      // No border radius - brutalist design
       borderRadius: {
-        'none': '0px',
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+        // Keep brutalist none option
+        none: "0px",
       },
-      // Grid layouts for brutalist structure
-      gridTemplateColumns: {
-        'brutal-main': '1fr',
-        'brutal-form': '1fr 1fr',
-        'brutal-results': 'repeat(auto-fit, minmax(300px, 1fr))',
+      // Preserve brutalist typography
+      fontFamily: {
+        mono: [
+          "Courier New",
+          "Monaco",
+          "Lucida Console",
+          "Liberation Mono",
+          "DejaVu Sans Mono",
+          "Bitstream Vera Sans Mono",
+          "Courier",
+          "monospace",
+        ],
       },
-      // Brutalist box shadows - none allowed
-      boxShadow: {
-        'none': 'none',
+      // Preserve brutalist spacing
+      spacing: {
+        20: "20px",
+        40: "40px",
+        60: "60px",
+        80: "80px",
+        100: "100px",
+        120: "120px",
       },
-      // Animation - instant transitions only
-      transitionDuration: {
-        '0': '0ms',
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
       },
-    },
-    // Override default values to enforce brutalist principles
-    borderRadius: {
-      'none': '0px',
-    },
-    boxShadow: {
-      'none': 'none',
-    },
-    // Restrict color palette
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      black: '#000000',
-      white: '#FFFFFF',
-      gray: {
-        100: '#F5F5F5',
-        900: '#000000',
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [],
-  // Disable features that go against brutalist principles
-  corePlugins: {
-    borderRadius: false,
-    boxShadow: false,
-    gradientColorStops: false,
-    backgroundImage: false,
-  }
-}
+  plugins: [require("tailwindcss-animate")],
+};

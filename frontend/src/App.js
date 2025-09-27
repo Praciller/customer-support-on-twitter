@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./index.css";
 
+// Import shadcn/ui components
+import { Button } from "./components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "./components/ui/card";
+import { Input } from "./components/ui/input";
+import { Label } from "./components/ui/label";
+import { Textarea } from "./components/ui/textarea";
+
 // Demo mode configuration
 const DEMO_MODE =
   process.env.NODE_ENV === "production" ||
@@ -9,7 +21,7 @@ const DEMO_MODE =
 const API_BASE_URL = DEMO_MODE ? null : "http://localhost:8000";
 
 // Demo response generator
-const generateDemoResponse = (ticketText, hasImage) => {
+export const generateDemoResponse = (ticketText, hasImage) => {
   // Available options for demo classification
   // const categories = [
   //   "Technical Issue",
@@ -174,10 +186,24 @@ function App() {
       }
     } catch (err) {
       console.error("Error analyzing ticket:", err);
-      setError(
-        err.response?.data?.detail ||
-          "Failed to analyze ticket. Please try again."
-      );
+
+      // Fallback to demo mode if API fails
+      if (!DEMO_MODE) {
+        console.log("API failed, falling back to demo mode");
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          const demoResult = generateDemoResponse(ticketText, !!selectedImage);
+          setAnalysisResult(demoResult);
+        } catch (demoErr) {
+          console.error("Demo mode also failed:", demoErr);
+          setError("Failed to analyze ticket. Please try again.");
+        }
+      } else {
+        setError(
+          err.response?.data?.detail ||
+            "Failed to analyze ticket. Please try again."
+        );
+      }
     } finally {
       setIsLoading(false);
     }
@@ -196,172 +222,176 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white p-20">
+    <div className="min-h-screen bg-background p-6">
       <div className="max-w-6xl mx-auto">
         {/* Main Header */}
-        <div className="brutal-container mb-40">
-          <h1 className="brutal-heading text-4xl">
-            CUSTOMER SUPPORT AI SYSTEM
-          </h1>
-          <p className="brutal-text">
-            MULTIMODAL TICKET ANALYSIS WITH TEXT AND IMAGE PROCESSING
-          </p>
+        <Card className="mb-8">
+          <CardHeader>
+            <h1 className="text-4xl font-bold text-center">
+              CUSTOMER SUPPORT AI SYSTEM
+            </h1>
+            <CardDescription className="text-center text-lg">
+              MULTIMODAL TICKET ANALYSIS WITH TEXT AND IMAGE PROCESSING
+            </CardDescription>
+          </CardHeader>
           {DEMO_MODE && (
-            <div className="mt-20 p-20 bg-yellow-100 border-4 border-black">
-              <p className="brutal-text font-bold">
-                🚀 DEMO MODE ACTIVE - Simulated AI responses for showcase
-                purposes
-              </p>
-              <p className="brutal-text text-sm mt-10">
-                This is a live demo of the frontend interface. The actual
-                backend uses FastAPI + Google Gemini AI for real ticket
-                analysis.
-              </p>
-            </div>
+            <CardContent>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <p className="font-bold text-yellow-800">
+                  🚀 DEMO MODE ACTIVE - Simulated AI responses for showcase
+                  purposes
+                </p>
+                <p className="text-sm text-yellow-700 mt-2">
+                  This is a live demo of the frontend interface. The actual
+                  backend uses FastAPI + Google Gemini AI for real ticket
+                  analysis.
+                </p>
+              </div>
+            </CardContent>
           )}
-        </div>
+        </Card>
 
         {/* Input Form */}
-        <div className="brutal-container mb-40">
-          <h2 className="brutal-subheading">SUBMIT SUPPORT TICKET</h2>
-
-          <form onSubmit={handleSubmit} className="grid gap-20">
-            {/* Ticket Text Input */}
-            <div>
-              <label htmlFor="ticket-text" className="brutal-label">
-                TICKET TEXT *
-              </label>
-              <textarea
-                id="ticket-text"
-                value={ticketText}
-                onChange={(e) => setTicketText(e.target.value)}
-                placeholder="DESCRIBE YOUR ISSUE HERE..."
-                className="brutal-input"
-                rows="6"
-                required
-              />
-            </div>
-
-            {/* Image Upload */}
-            <div>
-              <label htmlFor="image-upload" className="brutal-label">
-                IMAGE ATTACHMENT (OPTIONAL)
-              </label>
-              <input
-                id="image-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="brutal-input"
-              />
-              {selectedImage && (
-                <p className="brutal-text mt-20">
-                  SELECTED: {selectedImage.name}
-                </p>
-              )}
-            </div>
-
-            {/* Error Display */}
-            {error && (
-              <div className="brutal-card bg-gray-100">
-                <p className="brutal-text font-bold">ERROR: {error}</p>
+        <Card className="mb-8">
+          <CardHeader>
+            <h2 className="text-2xl font-semibold">SUBMIT SUPPORT TICKET</h2>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Ticket Text Input */}
+              <div className="space-y-2">
+                <Label htmlFor="ticket-text">TICKET TEXT *</Label>
+                <Textarea
+                  id="ticket-text"
+                  value={ticketText}
+                  onChange={(e) => setTicketText(e.target.value)}
+                  placeholder="DESCRIBE YOUR ISSUE HERE..."
+                  rows={6}
+                  required
+                />
               </div>
-            )}
 
-            {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-20">
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="brutal-button"
-              >
-                {isLoading ? "ANALYZING..." : "ANALYZE TICKET"}
-              </button>
-              <button
-                type="button"
-                onClick={clearForm}
-                className="brutal-button bg-white text-black border-black hover:bg-black hover:text-white"
-              >
-                CLEAR FORM
-              </button>
-            </div>
-          </form>
-        </div>
+              {/* Image Upload */}
+              <div className="space-y-2">
+                <Label htmlFor="image-upload">
+                  IMAGE ATTACHMENT (OPTIONAL)
+                </Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                  />
+                </div>
+                {selectedImage && (
+                  <p className="text-sm text-muted-foreground">
+                    SELECTED: {selectedImage.name}
+                  </p>
+                )}
+              </div>
+
+              {/* Error Display */}
+              {error && (
+                <Card className="bg-destructive/10 border-destructive">
+                  <CardContent className="pt-6">
+                    <p className="font-bold text-destructive">ERROR: {error}</p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-2 gap-4">
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? "ANALYZING..." : "ANALYZE TICKET"}
+                </Button>
+                <Button type="button" variant="outline" onClick={clearForm}>
+                  CLEAR FORM
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
 
         {/* Analysis Results */}
         {analysisResult && (
-          <div className="space-y-20">
-            <div className="grid gap-20 md:grid-cols-3">
+          <div className="space-y-6">
+            <div className="grid gap-6 md:grid-cols-3">
               {/* Summary Card */}
-              <div className="brutal-card">
-                <h3 className="brutal-subheading text-lg">SUMMARY</h3>
-                <p className="brutal-text">{analysisResult.summary}</p>
-              </div>
+              <Card>
+                <CardHeader>
+                  <h3 className="text-lg font-semibold">SUMMARY</h3>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm">{analysisResult.summary}</p>
+                </CardContent>
+              </Card>
 
               {/* Category & Sentiment Card */}
-              <div className="brutal-card">
-                <h3 className="brutal-subheading text-lg">
-                  CATEGORY & SENTIMENT
-                </h3>
-                <div className="space-y-20">
+              <Card>
+                <CardHeader>
+                  <h3 className="text-lg font-semibold">
+                    CATEGORY & SENTIMENT
+                  </h3>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <div>
-                    <span className="brutal-text font-bold">CATEGORY: </span>
-                    <span className="brutal-text">
-                      {analysisResult.category}
-                    </span>
+                    <span className="font-bold">CATEGORY: </span>
+                    <span>{analysisResult.category}</span>
                   </div>
                   <div>
-                    <span className="brutal-text font-bold">SENTIMENT: </span>
-                    <span className="brutal-text">
-                      {analysisResult.sentiment}
-                    </span>
+                    <span className="font-bold">SENTIMENT: </span>
+                    <span>{analysisResult.sentiment}</span>
                   </div>
                   <div>
-                    <span className="brutal-text font-bold">PRIORITY: </span>
-                    <span className="brutal-text">
-                      {analysisResult.priority}
-                    </span>
+                    <span className="font-bold">PRIORITY: </span>
+                    <span>{analysisResult.priority}</span>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
 
               {/* Draft Reply Card */}
-              <div className="brutal-card">
-                <h3 className="brutal-subheading text-lg">DRAFT REPLY</h3>
-                <p className="brutal-text">{analysisResult.draft_reply}</p>
-              </div>
+              <Card>
+                <CardHeader>
+                  <h3 className="text-lg font-semibold">DRAFT REPLY</h3>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm">{analysisResult.draft_reply}</p>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Backend Technology Info */}
-            <div className="brutal-container">
-              <h3 className="brutal-subheading text-lg">
-                BACKEND TECHNOLOGY STACK
-              </h3>
-              <div className="grid gap-20 md:grid-cols-2">
-                <div>
-                  <h4 className="brutal-text font-bold mb-10">
-                    AI & PROCESSING:
-                  </h4>
-                  <ul className="brutal-text space-y-5">
-                    <li>• Google Gemini AI for text analysis</li>
-                    <li>• Computer vision for image processing</li>
-                    <li>• Natural language understanding</li>
-                    <li>• Sentiment analysis algorithms</li>
-                  </ul>
+            <Card>
+              <CardHeader>
+                <h3 className="text-lg font-semibold">
+                  BACKEND TECHNOLOGY STACK
+                </h3>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div>
+                    <h4 className="font-bold mb-3">AI & PROCESSING:</h4>
+                    <ul className="text-sm space-y-2">
+                      <li>• Google Gemini AI for text analysis</li>
+                      <li>• Computer vision for image processing</li>
+                      <li>• Natural language understanding</li>
+                      <li>• Sentiment analysis algorithms</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-bold mb-3">INFRASTRUCTURE:</h4>
+                    <ul className="text-sm space-y-2">
+                      <li>• FastAPI Python backend</li>
+                      <li>• RESTful API architecture</li>
+                      <li>• Multimodal file processing</li>
+                      <li>• Real-time response generation</li>
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="brutal-text font-bold mb-10">
-                    INFRASTRUCTURE:
-                  </h4>
-                  <ul className="brutal-text space-y-5">
-                    <li>• FastAPI Python backend</li>
-                    <li>• RESTful API architecture</li>
-                    <li>• Multimodal file processing</li>
-                    <li>• Real-time response generation</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>

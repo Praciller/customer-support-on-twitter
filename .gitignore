@@ -345,3 +345,6 @@ eslint-report.json
 *-report.json
 *-report.txt
 *-report.xml
+
+# Augment folder
+.augment/

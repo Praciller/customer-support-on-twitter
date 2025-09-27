@@ -1,23 +1,36 @@
 {
   "name": "customer-support-ai-frontend",
   "version": "1.0.0",
-  "description": "Brutalist React frontend for Customer Support AI system",
+  "description": "Modern React frontend for Customer Support AI system with shadcn/ui",
   "homepage": "https://praciller.github.io/customer-support-on-twitter",
   "private": true,
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
     "axios": "^1.6.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.544.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "tailwind-merge": "^3.3.1",
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.5.2",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "autoprefixer": "^10.4.16",
     "gh-pages": "^6.3.0",
+    "jest-environment-jsdom": "^30.1.2",
     "postcss": "^8.4.32",
-    "tailwindcss": "^3.3.6"
+    "tailwindcss": "^3.3.6",
+    "tailwindcss-animate": "^1.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
