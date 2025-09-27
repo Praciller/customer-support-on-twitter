@@ -1,6 +1,6 @@
 # 🤖 Customer Support AI System
 
-**🚀 [Live Demo](https://praciller.github.io/customer-support-on-twitter) | 📖 [Documentation](#documentation) | 🛠️ [Setup Guide](#setup)**
+**🚀 [Live Demo](https://praciller.github.io/customer-support-on-twitter)**
 
 An intelligent, multimodal customer support system that analyzes support tickets (text + images) and generates contextual responses using Google's Gemini AI model. Features a modern shadcn/ui design with comprehensive testing and real-time AI processing capabilities.
 
