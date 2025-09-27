@@ -281,7 +281,7 @@ function App() {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="py-3 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                  className="h-10 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
                 />
                 {selectedImage && (
                   <p className="text-sm text-muted-foreground">
