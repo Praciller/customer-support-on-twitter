@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import App from "./App";
@@ -166,14 +166,13 @@ describe("App Component", () => {
     await waitFor(
       () => {
         expect(screen.getByText(/summary/i)).toBeInTheDocument();
-        expect(screen.getByText(/category & sentiment/i)).toBeInTheDocument();
-        expect(screen.getByText(/draft reply/i)).toBeInTheDocument();
-        expect(
-          screen.getByText(/backend technology stack/i)
-        ).toBeInTheDocument();
       },
       { timeout: 3000 }
     );
+
+    expect(screen.getByText(/category & sentiment/i)).toBeInTheDocument();
+    expect(screen.getByText(/draft reply/i)).toBeInTheDocument();
+    expect(screen.getByText(/backend technology stack/i)).toBeInTheDocument();
   });
 
   test("handles API success response", async () => {
@@ -205,8 +204,9 @@ describe("App Component", () => {
     // Wait for results
     await waitFor(() => {
       expect(screen.getByText("Test summary")).toBeInTheDocument();
-      expect(screen.getByText("Technical Issue")).toBeInTheDocument();
-      expect(screen.getByText("Test reply")).toBeInTheDocument();
     });
+
+    expect(screen.getByText("Technical Issue")).toBeInTheDocument();
+    expect(screen.getByText("Test reply")).toBeInTheDocument();
   });
 });

@@ -66,16 +66,13 @@ describe("API Integration Tests", () => {
       const formData = new FormData();
       formData.append("text", "Test ticket");
 
-      try {
-        await axios.post("http://localhost:8000/analyze-ticket", formData, {
+      await expect(
+        axios.post("http://localhost:8000/analyze-ticket", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        });
-      } catch (error) {
-        expect(error.response.status).toBe(500);
-        expect(error.response.data.detail).toBe("Internal server error");
-      }
+        })
+      ).rejects.toEqual(errorResponse);
     });
 
     test("should handle network error", async () => {
@@ -87,16 +84,13 @@ describe("API Integration Tests", () => {
       const formData = new FormData();
       formData.append("text", "Test ticket");
 
-      try {
-        await axios.post("http://localhost:8000/analyze-ticket", formData, {
+      await expect(
+        axios.post("http://localhost:8000/analyze-ticket", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        });
-      } catch (error) {
-        expect(error.message).toBe("Network Error");
-        expect(error.code).toBe("ECONNREFUSED");
-      }
+        })
+      ).rejects.toEqual(networkError);
     });
 
     test("should handle file upload with text", async () => {
