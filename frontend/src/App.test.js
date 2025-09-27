@@ -172,7 +172,7 @@ describe("App Component", () => {
 
     expect(screen.getByText(/category & sentiment/i)).toBeInTheDocument();
     expect(screen.getByText(/draft reply/i)).toBeInTheDocument();
-    expect(screen.getByText(/backend technology stack/i)).toBeInTheDocument();
+    // Backend technology stack section was removed as requested
   });
 
   test("handles API success response", async () => {
