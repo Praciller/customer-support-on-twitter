@@ -276,15 +276,13 @@ function App() {
                 <Label htmlFor="image-upload">
                   IMAGE ATTACHMENT (OPTIONAL)
                 </Label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
-                  />
-                </div>
+                <Input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="py-3 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                />
                 {selectedImage && (
                   <p className="text-sm text-muted-foreground">
                     SELECTED: {selectedImage.name}
