@@ -301,8 +301,9 @@ function App() {
                 </p>
                 <p className="text-sm text-yellow-700 mt-2">
                   This is a live demo of the frontend interface. The actual
-                  backend uses FastAPI + Google Gemini AI for real ticket
-                  analysis.
+                  backend uses FastAPI + Google Gemini AI with vision
+                  capabilities for real multimodal ticket analysis. Image
+                  uploads are acknowledged but not processed in demo mode.
                 </p>
               </div>
             </CardContent>
@@ -417,37 +418,6 @@ function App() {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Backend Technology Info */}
-            <Card>
-              <CardHeader>
-                <h3 className="text-lg font-semibold">
-                  BACKEND TECHNOLOGY STACK
-                </h3>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div>
-                    <h4 className="font-bold mb-3">AI & PROCESSING:</h4>
-                    <ul className="text-sm space-y-2">
-                      <li>• Google Gemini AI for text analysis</li>
-                      <li>• Computer vision for image processing</li>
-                      <li>• Natural language understanding</li>
-                      <li>• Sentiment analysis algorithms</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-bold mb-3">INFRASTRUCTURE:</h4>
-                    <ul className="text-sm space-y-2">
-                      <li>• FastAPI Python backend</li>
-                      <li>• RESTful API architecture</li>
-                      <li>• Multimodal file processing</li>
-                      <li>• Real-time response generation</li>
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         )}
       </div>
