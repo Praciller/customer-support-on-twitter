@@ -1,9 +1,5 @@
 # 🤖 Customer Support AI System
 
-[![Deploy to GitHub Pages](https://github.com/Praciller/customer-support-on-twitter/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Praciller/customer-support-on-twitter/actions/workflows/deploy-pages.yml)
-[![CI/CD Pipeline](https://github.com/Praciller/customer-support-on-twitter/actions/workflows/ci.yml/badge.svg)](https://github.com/Praciller/customer-support-on-twitter/actions/workflows/ci.yml)
-[![Code Quality](https://github.com/Praciller/customer-support-on-twitter/actions/workflows/code-quality.yml/badge.svg)](https://github.com/Praciller/customer-support-on-twitter/actions/workflows/code-quality.yml)
-
 **🚀 [Live Demo](https://praciller.github.io/customer-support-on-twitter) | 📖 [Documentation](#documentation) | 🛠️ [Setup Guide](#setup)**
 
 An intelligent, multimodal customer support system that analyzes support tickets (text + images) and generates contextual responses using Google's Gemini AI model. Features a modern shadcn/ui design with comprehensive testing and real-time AI processing capabilities.
@@ -33,8 +29,7 @@ An intelligent, multimodal customer support system that analyzes support tickets
 - **Backend**: FastAPI, Python 3.10+
 - **AI Engine**: Google Gemini AI
 - **Deployment**: GitHub Pages, GitHub Actions
-- **Testing**: Jest, React Testing Library, Playwright, pytest, GitHub Actions CI/CD
-- **Test Coverage**: 57 total tests (28 unit + 16 integration + 13 E2E)
+- **Testing**: Jest, React Testing Library, Playwright, pytest
 
 ## 🚀 Live Demo
 
@@ -77,10 +72,8 @@ customer-support-on-twitter/
 │   ├── main.py             # API server
 │   ├── requirements.txt    # Python dependencies
 │   └── tests/              # Backend tests
-├── .github/workflows/      # CI/CD pipelines
-│   ├── ci.yml             # Build & test workflow
-│   ├── code-quality.yml   # Code quality checks
-│   └── deploy-pages.yml   # GitHub Pages deployment
+├── .github/workflows/      # GitHub workflows
+│   └── dependency-update.yml # Dependency updates
 └── README.md              # This file
 ```
 
@@ -149,13 +142,7 @@ cd frontend && npm run lint
 
 ## 🚀 Deployment
 
-### GitHub Pages (Automatic)
-
-- Push to `main` branch triggers automatic deployment
-- Live at: `https://praciller.github.io/customer-support-on-twitter`
-- Demo mode automatically activated for GitHub Pages
-
-### Manual Deployment
+### GitHub Pages Deployment
 
 ```bash
 cd frontend
@@ -222,7 +209,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Google Gemini AI** for powerful language processing
 - **React & FastAPI** for robust framework foundations
 - **Tailwind CSS** for utility-first styling
-- **GitHub Actions** for seamless CI/CD
+- **GitHub Pages** for reliable hosting
 
 ---
 
