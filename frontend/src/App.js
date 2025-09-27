@@ -300,7 +300,7 @@ function App() {
               )}
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 mt-6">
                 <Button type="submit" disabled={isLoading}>
                   {isLoading ? "ANALYZING..." : "ANALYZE TICKET"}
                 </Button>
