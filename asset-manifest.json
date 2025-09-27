@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/customer-support-on-twitter/static/css/main.0d02be46.css",
-    "main.js": "/customer-support-on-twitter/static/js/main.4dc1c543.js",
+    "main.css": "/customer-support-on-twitter/static/css/main.47d9fe0c.css",
+    "main.js": "/customer-support-on-twitter/static/js/main.5402140d.js",
     "index.html": "/customer-support-on-twitter/index.html",
-    "main.0d02be46.css.map": "/customer-support-on-twitter/static/css/main.0d02be46.css.map",
-    "main.4dc1c543.js.map": "/customer-support-on-twitter/static/js/main.4dc1c543.js.map"
+    "main.47d9fe0c.css.map": "/customer-support-on-twitter/static/css/main.47d9fe0c.css.map",
+    "main.5402140d.js.map": "/customer-support-on-twitter/static/js/main.5402140d.js.map"
   },
   "entrypoints": [
-    "static/css/main.0d02be46.css",
-    "static/js/main.4dc1c543.js"
+    "static/css/main.47d9fe0c.css",
+    "static/js/main.5402140d.js"
   ]
 }
