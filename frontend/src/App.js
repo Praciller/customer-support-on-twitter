@@ -34,7 +34,24 @@ export const generateDemoResponse = (ticketText, hasImage) => {
 
   // Check for Thai keywords
   if (isThaiText) {
+    // Check for product defect/damage keywords (especially with images)
     if (
+      hasImage &&
+      (lowerText.includes("เสียหาย") ||
+        lowerText.includes("ชำรุด") ||
+        lowerText.includes("แตก") ||
+        lowerText.includes("หัก") ||
+        lowerText.includes("พัง") ||
+        lowerText.includes("สินค้า") ||
+        lowerText.includes("ของ") ||
+        lowerText.includes("รูปภาพ") ||
+        lowerText.includes("ภาพ") ||
+        lowerText.includes("สถานะ"))
+    ) {
+      category = "สินค้าชำรุด";
+      priority = "สูง";
+      sentiment = "กังวล";
+    } else if (
       lowerText.includes("ปัญหา") ||
       lowerText.includes("เสีย") ||
       lowerText.includes("ข้อผิดพลาด") ||
@@ -70,7 +87,26 @@ export const generateDemoResponse = (ticketText, hasImage) => {
     }
   } else {
     // English keywords
+    // Check for product defect/damage keywords (especially with images)
     if (
+      hasImage &&
+      (lowerText.includes("damage") ||
+        lowerText.includes("broken") ||
+        lowerText.includes("defect") ||
+        lowerText.includes("crack") ||
+        lowerText.includes("torn") ||
+        lowerText.includes("wire") ||
+        lowerText.includes("electrical") ||
+        lowerText.includes("product") ||
+        lowerText.includes("status") ||
+        lowerText.includes("image") ||
+        lowerText.includes("picture") ||
+        lowerText.includes("photo"))
+    ) {
+      category = "Product Defect";
+      priority = "High";
+      sentiment = "Concerned";
+    } else if (
       lowerText.includes("bug") ||
       lowerText.includes("error") ||
       lowerText.includes("broken")
@@ -122,6 +158,11 @@ export const generateDemoResponse = (ticketText, hasImage) => {
   if (isThaiText) {
     // Thai responses
     switch (category) {
+      case "สินค้าชำรุด":
+        draftReply = hasImage
+          ? "ขอบคุณที่ติดต่อเราและส่งรูปภาพมาให้ จากรูปภาพที่แนบมา เห็นได้ชัดว่าสินค้ามีความเสียหาย ทางเราต้องขออภัยอย่างยิ่งสำหรับปัญหานี้ เพื่อช่วยเหลือคุณอย่างรวดเร็ว กรุณาแจ้งหมายเลขคำสั่งซื้อเพื่อให้เราดำเนินการเปลี่ยนสินค้าหรือคืนเงินให้คุณ ทีมควบคุมคุณภาพของเราจะตรวจสอบว่าเหตุการณ์นี้เกิดขึ้นได้อย่างไร"
+          : "ขอบคุณที่แจ้งปัญหาสินค้าชำรุด เพื่อช่วยเหลือคุณได้ดีขึ้น กรุณาส่งรูปภาพความเสียหายและหมายเลขคำสั่งซื้อมาให้เรา เพื่อให้เราสามารถดำเนินการเคลมได้อย่างรวดเร็ว";
+        break;
       case "ปัญหาทางเทคนิค":
         draftReply =
           "ขอบคุณที่แจ้งปัญหาทางเทคนิคนี้ ทีมวิศวกรของเราได้รับแจ้งแล้วและจะตรวจสอบปัญหานี้อย่างรวดเร็ว เราจะแจ้งความคืบหน้าและให้การแก้ไขโดยเร็วที่สุด";
@@ -145,6 +186,11 @@ export const generateDemoResponse = (ticketText, hasImage) => {
   } else {
     // English responses
     switch (category) {
+      case "Product Defect":
+        draftReply = hasImage
+          ? "Thank you for contacting us and providing the image. I can see from the photo that the product appears to be damaged. We sincerely apologize for this issue. To help you quickly, please provide your order number so we can process a replacement or refund. Our quality team will also investigate how this occurred."
+          : "Thank you for reporting this product issue. To assist you better, could you please provide photos of the damage and your order number? This will help us process your claim more efficiently.";
+        break;
       case "Technical Issue":
         draftReply =
           "Thank you for reporting this technical issue. Our engineering team has been notified and will investigate this matter promptly. We'll keep you updated on our progress and provide a resolution as soon as possible.";
