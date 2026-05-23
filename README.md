@@ -1,148 +1,134 @@
-# 🤖 Customer Support AI System
+# Customer Support AI System
 
-**🚀 [Live Demo](https://praciller.github.io/customer-support-on-twitter)**
+Multimodal customer-support assistant that analyzes support tickets from text and optional images, classifies the issue, detects sentiment, estimates priority, and drafts a contextual response with Gemini.
 
-An intelligent, multimodal customer support system that analyzes support tickets (text + images) and generates contextual responses using Google's Gemini AI model. Features a modern shadcn/ui design with comprehensive testing and real-time AI processing capabilities.
+Live demo: https://praciller.github.io/customer-support-on-twitter
 
-## ✨ Features
+## Role Fit
 
-### 🎯 **Core Functionality**
+| Target role | Evidence shown in this repo |
+| --- | --- |
+| AI Engineer | Ticket classification, sentiment/priority extraction, response generation |
+| GenAI Engineer | Gemini prompt design, multimodal input handling, structured AI output |
+| Data Analyst | Category, sentiment, priority, and support-triage signals |
+| Full-Stack / Frontend | React UI, FastAPI backend, GitHub Pages deployment, API integration |
 
-- **Multimodal Analysis**: Process both text and image attachments
-- **AI-Powered Categorization**: Automatic ticket classification
-- **Sentiment Analysis**: Real-time emotion detection
-- **Priority Assessment**: Intelligent urgency evaluation
-- **Draft Response Generation**: Context-aware reply suggestions
-- **Real-time Processing**: Sub-second response times
+## AI Problem Solved
 
-### 🎨 **User Experience**
+Support teams need to triage incoming tickets quickly. This app turns raw ticket text and optional screenshots into structured operational signals: category, sentiment, priority, and a draft response.
 
-- **Modern shadcn/ui Design**: Professional, accessible component library
-- **Responsive Layout**: Mobile-first design that works on all devices
-- **Live Demo Mode**: Interactive showcase without backend dependency
-- **Real-time Feedback**: Loading states and comprehensive error handling
-- **Accessibility**: WCAG compliant with proper semantic HTML
+## Architecture
 
-### 🔧 **Technical Stack**
-
-- **Frontend**: React 18, shadcn/ui, Tailwind CSS, Axios
-- **Backend**: FastAPI, Python 3.10+
-- **AI Engine**: Google Gemini AI
-- **Deployment**: GitHub Pages, GitHub Actions
-- **Testing**: Jest, React Testing Library, Playwright, pytest
-
-## 🚀 Live Demo
-
-Experience the system in action: **[https://praciller.github.io/customer-support-on-twitter](https://praciller.github.io/customer-support-on-twitter)**
-
-The live demo runs in **demo mode** with simulated AI responses that showcase the interface and functionality. The actual backend uses Google Gemini AI for real ticket analysis.
-
-### 🧪 Try These Examples:
-
-**Technical Issue:**
-
-```
-My app keeps crashing when I try to upload files. This is very frustrating!
+```text
+Ticket text + optional image
+  -> React support UI
+  -> FastAPI /analyze-ticket endpoint
+  -> Gemini multimodal analysis
+  -> Structured category/sentiment/priority/reply
+  -> UI result cards and demo mode
 ```
 
-**Billing Question:**
+## AI and Data Flow
 
-```
-I was charged twice for my subscription this month. Can you help me understand why?
-```
+- Accepts support-ticket text and optional image attachment.
+- Sends the ticket payload to the backend API.
+- Uses Gemini to classify category, sentiment, urgency, and likely response.
+- Returns structured output for UI rendering.
+- Provides a frontend demo mode for GitHub Pages while keeping the backend integration path clear.
 
-**Feature Request:**
+## Key Engineering Highlights
 
-```
-It would be great if you could add dark mode to the application.
-```
+- Multimodal ticket analysis with text and image support.
+- Structured output useful for dashboards or routing rules.
+- FastAPI backend with health endpoint and configurable origins.
+- React frontend with responsive UI and clear loading/error states.
+- GitHub Pages demo deployment.
+- Frontend and backend testing setup.
 
-## 📁 Project Structure
+## Tech Stack
 
-```
-customer-support-on-twitter/
-├── frontend/                 # React application
-│   ├── src/
-│   │   ├── App.js           # Main component with demo mode
-│   │   ├── index.css        # Brutalist styling
-│   │   └── App.test.js      # Component tests
-│   ├── public/              # Static assets
-│   └── package.json         # Dependencies & scripts
-├── backend/                 # FastAPI application
-│   ├── main.py             # API server
-│   ├── requirements.txt    # Python dependencies
-│   └── tests/              # Backend tests
-├── .github/workflows/      # GitHub workflows
-│   └── dependency-update.yml # Dependency updates
-└── README.md              # This file
-```
+| Layer | Tools |
+| --- | --- |
+| Frontend | React 18, Tailwind CSS, shadcn/ui-style components, Axios |
+| Backend | Python, FastAPI |
+| AI | Google Gemini AI |
+| Deployment | GitHub Pages, GitHub Actions |
+| Testing | Jest, React Testing Library, Playwright, pytest |
 
-## 🛠️ Setup
+## Evaluation and Testing
 
-### Prerequisites
+Recommended AI evaluation cases:
 
-- **Node.js** 18+ and npm
-- **Python** 3.10+
-- **Google API Key** (for Gemini AI)
+| Case | Expected behavior |
+| --- | --- |
+| Technical issue | Category: technical/support, negative sentiment, high priority if blocking |
+| Billing complaint | Category: billing, clear response with next-step language |
+| Feature request | Category: feature request, neutral/positive sentiment, lower urgency |
+| Screenshot included | Uses image context when relevant |
+| Ambiguous ticket | Conservative classification and asks for missing information |
 
-### Frontend Development
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
-Runs on `http://localhost:3000`
-
-### Backend Development
-
-```bash
-cd backend
-pip install -r requirements.txt
-export GOOGLE_API_KEY="your-api-key"
-python main.py
-```
-
-Runs on `http://localhost:8000`
-
-### Full Stack Development
-
-1. Start backend server (port 8000)
-2. Start frontend development server (port 3000)
-3. Frontend automatically connects to backend API
-
-## 🧪 Testing
-
-### Frontend Tests
+Run frontend tests:
 
 ```bash
 cd frontend
 npm test
 ```
 
-### Backend Tests
+Run backend tests:
 
 ```bash
 cd backend
 pytest tests/ -v
 ```
 
-### Code Quality
+## Local Setup
+
+Frontend:
 
 ```bash
-# Python formatting & linting
-black backend/
-isort backend/
-flake8 backend/
-
-# Frontend linting (if configured)
-cd frontend && npm run lint
+git clone https://github.com/Praciller/customer-support-on-twitter.git
+cd customer-support-on-twitter/frontend
+npm install
+npm start
 ```
 
-## 🚀 Deployment
+Backend:
 
-### GitHub Pages Deployment
+```bash
+cd backend
+pip install -r requirements.txt
+export GOOGLE_API_KEY=your_gemini_key
+python main.py
+```
+
+Local URLs:
+
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:8000`
+
+## API
+
+### POST `/analyze-ticket`
+
+Input:
+
+- `text`: ticket text
+- `image`: optional screenshot/image attachment
+
+Output:
+
+- category
+- sentiment
+- priority
+- suggested response
+
+### GET `/health`
+
+Returns backend and AI-service readiness.
+
+## Deployment
+
+The frontend demo is deployed to GitHub Pages:
 
 ```bash
 cd frontend
@@ -150,67 +136,12 @@ npm run build
 npm run deploy
 ```
 
-## 🔧 Configuration
+For production AI analysis, deploy the FastAPI backend separately and configure the frontend with the backend API URL.
 
-### Environment Variables
+## Why This Repo Matters
 
-**Backend (.env):**
+This project is useful for AI Engineer and GenAI Engineer roles because it shows applied classification, extraction, and response generation in a support workflow. It also supports data analyst positioning because ticket categories, sentiment, and priority are operational metrics that can feed dashboards and routing decisions.
 
-```env
-GOOGLE_API_KEY=your_gemini_api_key
-ALLOWED_ORIGINS=http://localhost:3000
-DEBUG=True
-HOST=0.0.0.0
-PORT=8000
-```
+## License
 
-**Frontend:**
-
-- Demo mode automatically activates on GitHub Pages
-- Production builds use `REACT_APP_API_URL` for backend connection
-
-## 📖 API Documentation
-
-### Endpoints
-
-**POST /analyze-ticket**
-
-- **Description**: Analyze support ticket with text and optional image
-- **Content-Type**: `multipart/form-data`
-- **Parameters**:
-  - `text` (required): Ticket description
-  - `image` (optional): Image attachment
-- **Response**: Analysis results with category, sentiment, priority, and draft reply
-
-**GET /health**
-
-- **Description**: Health check endpoint
-- **Response**: Service status and API availability
-
-**GET /**
-
-- **Description**: API information
-- **Response**: Welcome message and API details
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Google Gemini AI** for powerful language processing
-- **React & FastAPI** for robust framework foundations
-- **Tailwind CSS** for utility-first styling
-- **GitHub Pages** for reliable hosting
-
----
-
-**Built with ❤️ by [Praciller](https://github.com/Praciller)**
+MIT
