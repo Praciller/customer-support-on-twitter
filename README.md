@@ -4,6 +4,10 @@ Multimodal customer-support assistant that analyzes support tickets from text an
 
 Live demo: https://praciller.github.io/customer-support-on-twitter
 
+## Preview
+
+![Customer Support AI System live demo](docs/screenshots/live-demo.jpg)
+
 ## Role Fit
 
 | Target role | Evidence shown in this repo |
