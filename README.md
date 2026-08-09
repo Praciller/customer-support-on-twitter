@@ -2,7 +2,9 @@
 
 Multimodal customer-support assistant that analyzes support tickets from text and optional images, classifies the issue, detects sentiment, estimates priority, and drafts a contextual response with Gemini.
 
-Live demo: https://praciller.github.io/customer-support-on-twitter
+Frontend demo: https://praciller.github.io/customer-support-on-twitter
+
+> Public boundary: the GitHub Pages site is a frontend-only simulated demo. It does not execute the undeployed Gemini/FastAPI backend; production AI analysis requires a separately deployed and configured backend.
 
 ## Preview
 
