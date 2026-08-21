@@ -1,27 +1,23 @@
 # Customer Support AI System
 
-Multimodal customer-support assistant that analyzes support tickets from text and optional images, classifies the issue, detects sentiment, estimates priority, and drafts a contextual response with Gemini.
+Customer-support portfolio application that turns ticket text and optional image attachments into structured triage signals: category, sentiment, priority, and a draft response.
 
 Frontend demo: https://praciller.github.io/customer-support-on-twitter
 
-> Public boundary: the GitHub Pages site is a frontend-only simulated demo. It does not execute the undeployed Gemini/FastAPI backend; production AI analysis requires a separately deployed and configured backend.
+> Public boundary: the GitHub Pages site and backend use deterministic local triage. Image attachments are acknowledged as context, but image pixels are not interpreted by the current public implementation.
 
 ## Preview
 
 ![Customer Support AI System live demo](docs/screenshots/live-demo.jpg)
 
-## Role Fit
+## What this demonstrates
 
-| Target role | Evidence shown in this repo |
-| --- | --- |
-| AI Engineer | Ticket classification, sentiment/priority extraction, response generation |
-| GenAI Engineer | Gemini prompt design, multimodal input handling, structured AI output |
-| Data Analyst | Category, sentiment, priority, and support-triage signals |
-| Full-Stack / Frontend | React UI, FastAPI backend, GitHub Pages deployment, API integration |
-
-## AI Problem Solved
-
-Support teams need to triage incoming tickets quickly. This app turns raw ticket text and optional screenshots into structured operational signals: category, sentiment, priority, and a draft response.
+- Support-ticket classification for common operational categories.
+- Sentiment and priority estimation using deterministic rules.
+- Bilingual Thai/English demo behavior.
+- Draft-response generation with an explicit human-review boundary.
+- React frontend, FastAPI backend, API integration, and GitHub Pages deployment.
+- Frontend and backend testing setup.
 
 ## Architecture
 
@@ -29,65 +25,24 @@ Support teams need to triage incoming tickets quickly. This app turns raw ticket
 Ticket text + optional image
   -> React support UI
   -> FastAPI /analyze-ticket endpoint
-  -> Gemini multimodal analysis
-  -> Structured category/sentiment/priority/reply
-  -> UI result cards and demo mode
+  -> deterministic local triage
+  -> structured category/sentiment/priority/draft
+  -> UI result cards
 ```
 
-## AI and Data Flow
+The local processor does not require an external account, model endpoint, or API key.
 
-- Accepts support-ticket text and optional image attachment.
-- Sends the ticket payload to the backend API.
-- Uses Gemini to classify category, sentiment, urgency, and likely response.
-- Returns structured output for UI rendering.
-- Provides a frontend demo mode for GitHub Pages while keeping the backend integration path clear.
-
-## Key Engineering Highlights
-
-- Multimodal ticket analysis with text and image support.
-- Structured output useful for dashboards or routing rules.
-- FastAPI backend with health endpoint and configurable origins.
-- React frontend with responsive UI and clear loading/error states.
-- GitHub Pages demo deployment.
-- Frontend and backend testing setup.
-
-## Tech Stack
+## Tech stack
 
 | Layer | Tools |
 | --- | --- |
 | Frontend | React 18, Tailwind CSS, shadcn/ui-style components, Axios |
 | Backend | Python, FastAPI |
-| AI | Google Gemini AI |
+| Analysis | Deterministic bilingual ticket-triage rules |
 | Deployment | GitHub Pages, GitHub Actions |
 | Testing | Jest, React Testing Library, Playwright, pytest |
 
-## Evaluation and Testing
-
-Recommended AI evaluation cases:
-
-| Case | Expected behavior |
-| --- | --- |
-| Technical issue | Category: technical/support, negative sentiment, high priority if blocking |
-| Billing complaint | Category: billing, clear response with next-step language |
-| Feature request | Category: feature request, neutral/positive sentiment, lower urgency |
-| Screenshot included | Uses image context when relevant |
-| Ambiguous ticket | Conservative classification and asks for missing information |
-
-Run frontend tests:
-
-```bash
-cd frontend
-npm test
-```
-
-Run backend tests:
-
-```bash
-cd backend
-pytest tests/ -v
-```
-
-## Local Setup
+## Local setup
 
 Frontend:
 
@@ -103,7 +58,6 @@ Backend:
 ```bash
 cd backend
 pip install -r requirements.txt
-export GOOGLE_API_KEY=your_gemini_key
 python main.py
 ```
 
@@ -119,34 +73,53 @@ Local URLs:
 Input:
 
 - `text`: ticket text
-- `image`: optional screenshot/image attachment
+- `image`: optional image attachment; presence is recorded as context only
 
-Output:
+Output includes:
 
-- category
-- sentiment
-- priority
-- suggested response
+- `summary`
+- `category`
+- `sentiment`
+- `priority`
+- `draft_reply`
+- `analysis_mode`
+- `image_interpretation`
 
 ### GET `/health`
 
-Returns backend and AI-service readiness.
+Returns backend readiness information.
 
-## Deployment
+## Evaluation cases
 
-The frontend demo is deployed to GitHub Pages:
+| Case | Expected behavior |
+| --- | --- |
+| Technical issue | Technical category and elevated priority |
+| Billing complaint | Billing category with review-oriented response |
+| Feature request | Feature category and lower urgency |
+| Account/login issue | Account category and elevated priority |
+| Image attached | Attachment is acknowledged without claiming pixel interpretation |
+| Thai ticket | Thai labels and response draft |
+
+Run frontend tests:
 
 ```bash
 cd frontend
-npm run build
-npm run deploy
+npm test
 ```
 
-For production AI analysis, deploy the FastAPI backend separately and configure the frontend with the backend API URL.
+Run backend tests:
 
-## Why This Repo Matters
+```bash
+cd backend
+pytest tests/ -v
+```
 
-This project is useful for AI Engineer and GenAI Engineer roles because it shows applied classification, extraction, and response generation in a support workflow. It also supports data analyst positioning because ticket categories, sentiment, and priority are operational metrics that can feed dashboards and routing decisions.
+## Limitations
+
+- The current public processor is deterministic and rule-based; it does not infer image contents.
+- Classification is intentionally bounded to a small set of demo categories and keywords.
+- Draft replies require human verification before use with real customers.
+- No production accuracy, compliance, or response-time guarantee is claimed.
 
 ## License
 
